@@ -1,20 +1,18 @@
 package be.vdab.luigi.controllers;
 
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.time.LocalTime;
 
-@RestController
+@Controller
 @RequestMapping("/")
 class IndexController {
     @GetMapping
-    public String index() {
-        var moment = LocalTime.now().getHour() < 12 ? "morgen" : "middag";
-        return "<!doctype html><html><title>Hallo</title><body>Goede "
-                + moment +
-                "</body></html>";
-    }
+    public ModelAndView index() {
+        var morgenMiddag = LocalTime.now().getHour() < 12 ? "morgen" : "middag";
+        return new ModelAndView("index", "moment", morgenMiddag);    }
 }
 
