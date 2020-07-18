@@ -8,5 +8,13 @@
 <body>
 <h1>Frituur Frida</h1>
 <h2>Vandaag zijn we <span th:text="${moment}"></span></h2>
+<dl th:object = "${MijnAdres}">
+    <dt>Straat</dt>
+        <dd th:text="*{straat}"></dd>
+    <dt>Huis nummer</dt>
+    <dd th:text = "*{huisNr}"></dd>
+    <dt>Gemeente</dt>
+    <dd th:object = "${MijnAdres.gemente}"  th:text="|*{naam} *{postcode} |"></dd>
+</dl>
 </body>
 </html>
