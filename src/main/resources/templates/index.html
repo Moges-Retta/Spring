@@ -9,9 +9,9 @@
         <dt>Straat</dt>
             <dd th:text="*{straat}"></dd>
         <dt>Huis nummer</dt>
-        <dd th:text = "*{huisNr}"></dd>
+            <dd th:text = "*{huisNr}"></dd>
         <dt>Gemeente</dt>
-        <dd th:object = "${MijnAdres.gemente}"  th:text="|*{naam} *{postcode} |"></dd>
+            <dd th:object = "${MijnAdres.gemente}"  th:text="|*{naam} *{postcode} |"></dd>
     </dl>
 </body>
 </html>

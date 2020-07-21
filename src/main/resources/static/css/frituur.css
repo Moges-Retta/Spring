@@ -26,3 +26,5 @@ nav a:hover {
       background-color: #4CAF50;
       color: white;
     }
+
+    dd,dt { margin-left: 0; } dt { margin-top: 0.5em; } dd { font-weight: bold; }
