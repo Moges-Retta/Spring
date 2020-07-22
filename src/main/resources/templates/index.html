@@ -4,7 +4,8 @@
 <body>
 <nav th:replace="fragments::menu"></nav>
 <h1>Pizza Luigi</h1>
-<img src="@{/images/luigi.jpg}" alt="pizza" class="fullwidth">
+<img th:src="@{/images/luigi.jpg}" th:alt="pizza" class="fullwidth">
+<div th:if="${reedsBezocht}">Welkom terug </div>
 <h2>De zaakvoerder</h2>
 <dl th:object="${zaakvoerder}">
     <dt>Naam</dt>
