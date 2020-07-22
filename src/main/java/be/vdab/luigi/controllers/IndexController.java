@@ -14,12 +14,13 @@ import javax.servlet.http.HttpServletResponse;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @Controller
 @RequestMapping("/")
 class IndexController {
     private static final int EEN_JAAR_IN_SECONDEN = 31_536_000;
-
+    private final AtomicInteger aantalKeerBekeken = new AtomicInteger();
     @GetMapping
     public ModelAndView index(@CookieValue(name="reedsBezocht", required = false) String reedsBezocht,
                               HttpServletResponse response) {
@@ -36,6 +37,7 @@ class IndexController {
         if (reedsBezocht != null) {
             modelAndView.addObject("reedsBezocht", true);
         }
+        modelAndView.addObject("aantalKeerBekeken", aantalKeerBekeken.incrementAndGet());
         return modelAndView;
     }
 }
