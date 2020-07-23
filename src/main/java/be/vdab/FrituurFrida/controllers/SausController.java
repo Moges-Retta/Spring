@@ -1,5 +1,6 @@
 package be.vdab.FrituurFrida.controllers;
 
+import be.vdab.FrituurFrida.domain.Pizza;
 import be.vdab.FrituurFrida.domain.Saus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -7,7 +8,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.math.BigDecimal;
 import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("sauzen")
@@ -29,5 +34,20 @@ class SausController {
         Arrays.stream(sauzen).filter(saus->saus.getNummer()==id).findFirst()
                 .ifPresent(saus -> modelAndView.addObject("saus", saus));
         return modelAndView;
+    }
+
+    private final char[] alfabet = "abcdefghijklmnopqrstuvwxyz".toCharArray();
+    @GetMapping("alphabet")
+    public ModelAndView alfabet() {
+        return new ModelAndView("alphabet", "alphabet", alfabet);
+    }
+    private List<Saus> sauzenDieBeginnenMet(char letter) {
+        return Arrays.stream(sauzen).filter(saus->saus.getNaam().charAt(0)==letter)
+                .collect(Collectors.toList());
+    }
+    @GetMapping("alphabet/{letter}")
+    public ModelAndView sauzenBeginnendMet(@PathVariable char letter) {
+        return new ModelAndView("alphabet", "alphabet", alfabet)
+                .addObject("sauzen", sauzenDieBeginnenMet(letter));
     }
 }
