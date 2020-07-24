@@ -1,16 +1,16 @@
 package be.vdab.FrituurFrida.controllers;
 
-import be.vdab.FrituurFrida.domain.Pizza;
 import be.vdab.FrituurFrida.domain.Saus;
+import be.vdab.FrituurFrida.services.DefaultSausService;
+import be.vdab.FrituurFrida.services.SausService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.math.BigDecimal;
+import java.io.IOException;
 import java.util.Arrays;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -24,15 +24,23 @@ class SausController {
                 new Saus(3,"tartare", new String[] {"mayonaise", "augurk", "tabasco"}),
                 new Saus(4,"vinaigrette", new String[] {"olijfolie","mosterd","azijn"})};
 
+    private final SausService sausService;
+    SausController(SausService sausService) {
+        this.sausService = sausService;
+    }
+
     @GetMapping
     public ModelAndView index(){
-        return new ModelAndView("saus","sauzen",sauzen);
+       // return new ModelAndView("saus","sauzen",sauzen);
+        return new ModelAndView("saus","sauzen",sausService.findAll());
     }
-   @GetMapping("{id}")
-    public ModelAndView saus(@PathVariable long id){
+    @GetMapping("{id}")
+    public ModelAndView saus(@PathVariable long id) throws IOException {
         var modelAndView = new ModelAndView("sauzen");
-        Arrays.stream(sauzen).filter(saus->saus.getNummer()==id).findFirst()
-                .ifPresent(saus -> modelAndView.addObject("saus", saus));
+        sausService.findById(id).ifPresent(modelAndView::addObject);
+        //modelAndView.addObject("saus", sausService.findById(id));
+        /*Arrays.stream(sauzen).filter(saus->saus.getNummer()==id).findFirst()
+                .ifPresent(saus -> modelAndView.addObject("saus", saus));*/
         return modelAndView;
     }
 
@@ -48,6 +56,6 @@ class SausController {
     @GetMapping("alphabet/{letter}")
     public ModelAndView sauzenBeginnendMet(@PathVariable char letter) {
         return new ModelAndView("alphabet", "alphabet", alfabet)
-                .addObject("sauzen", sauzenDieBeginnenMet(letter));
+                .addObject("sauzen", sausService.findByNaamBegintMet(letter));
     }
 }
