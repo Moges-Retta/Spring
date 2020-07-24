@@ -1,6 +1,8 @@
 package be.vdab.FrituurFrida.controllers;
 
 import be.vdab.FrituurFrida.domain.Pizza;
+import be.vdab.FrituurFrida.exceptions.KoersClientException;
+import be.vdab.FrituurFrida.services.EuroService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,10 +18,15 @@ import java.util.stream.Collectors;
 @RequestMapping("pizzas")
 public class PizzaController {
     //private final String[] pizzas = {"Prosciutto", "Margherita", "Calzone"};
+    private final EuroService euroService;
+    public PizzaController(EuroService euroService) {
+        this.euroService = euroService;
+    }
     private final Pizza[] pizzas = {
             new Pizza(1, "Prosciutto", BigDecimal.valueOf(4), true),
             new Pizza(2, "Margherita", BigDecimal.valueOf(5), false),
             new Pizza(3, "Calzone", BigDecimal.valueOf(4), false)};
+
     @GetMapping
     public ModelAndView pizzas() {
         return new ModelAndView("pizzas", "pizzas", pizzas);
@@ -28,11 +35,19 @@ public class PizzaController {
     public ModelAndView pizza(@PathVariable long id) {
         var modelAndView = new ModelAndView("pizza");
         Arrays.stream(pizzas).filter(pizza -> pizza.getId() == id).findFirst()
-                .ifPresent(pizza -> modelAndView.addObject("pizza", pizza));
+                .ifPresent(pizza -> {
+                    modelAndView.addObject("pizza", pizza);
+                    try {
+                        modelAndView.addObject(
+                                "inDollar", euroService.naarDollar(pizza.getPrijs()));
+                    } catch (KoersClientException ex) {
+                                 // Hier komt later code om de exception te verwerken.
+                    }
+                });
         return modelAndView;
     }
     private List<BigDecimal> uniekePrijzen() {
-        return Arrays.stream(pizzas).map(pizza -> pizza.getPrijs())
+        return Arrays.stream(pizzas).map(Pizza::getPrijs)
                 .distinct().sorted().collect(Collectors.toList());
     }
     @GetMapping("prijzen")
