@@ -3,6 +3,7 @@ package be.vdab.FrituurFrida.controllers;
 import be.vdab.FrituurFrida.domain.Pizza;
 import be.vdab.FrituurFrida.exceptions.KoersClientException;
 import be.vdab.FrituurFrida.services.EuroService;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
