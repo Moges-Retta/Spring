@@ -3,6 +3,8 @@ package be.vdab.FrituurFrida.controllers;
 import be.vdab.FrituurFrida.domain.Pizza;
 import be.vdab.FrituurFrida.exceptions.KoersClientException;
 import be.vdab.FrituurFrida.services.EuroService;
+import org.junit.platform.commons.logging.Logger;
+import org.junit.platform.commons.logging.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,6 +21,7 @@ import java.util.stream.Collectors;
 @RequestMapping("pizzas")
 public class PizzaController {
     //private final String[] pizzas = {"Prosciutto", "Margherita", "Calzone"};
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private final EuroService euroService;
     public PizzaController(EuroService euroService) {
         this.euroService = euroService;
@@ -42,7 +45,7 @@ public class PizzaController {
                         modelAndView.addObject(
                                 "inDollar", euroService.naarDollar(pizza.getPrijs()));
                     } catch (KoersClientException ex) {
-                                 // Hier komt later code om de exception te verwerken.
+                        logger.error(new Throwable("Kan dollar koers niet lezen"), ex);
                     }
                 });
         return modelAndView;
