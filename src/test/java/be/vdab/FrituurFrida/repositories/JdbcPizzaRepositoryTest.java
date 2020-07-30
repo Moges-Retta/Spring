@@ -80,7 +80,8 @@ public class JdbcPizzaRepositoryTest extends AbstractTransactionalJUnit4SpringCo
     void findByPrijsBetween() {
         assertThat(repository.findByPrijsBetween(BigDecimal.ONE, BigDecimal.TEN))
                 .hasSize(super.countRowsInTableWhere(PIZZAS, "prijs between 1 and 10"))
-                .allSatisfy(pizza -> assertThat(pizza.getPrijs())
+                .allSatisfy(pizza ->
+                        assertThat(pizza.getPrijs())
                                 .isBetween(BigDecimal.ONE, BigDecimal.TEN))
                 .extracting(Pizza::getPrijs).isSorted();
     }

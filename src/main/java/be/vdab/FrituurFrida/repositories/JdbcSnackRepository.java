@@ -36,7 +36,7 @@ public class JdbcSnackRepository implements SnackRepository{
 
     @Override
     public void update(Snack snack) {
-        var sql = "update snacks set naam=?, prijs=?, prijs=? where id = ?";
+        var sql = "update snacks set naam=?, prijs=? where id = ?";
         if (template.update(sql, snack.getNaam(), snack.getPrijs(),
                 snack.getId()) == 0) {
             throw new SnackNietGevondenException();
