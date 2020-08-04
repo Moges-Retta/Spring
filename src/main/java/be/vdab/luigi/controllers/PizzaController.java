@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.validation.Valid;
 import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.List;
@@ -94,7 +95,7 @@ public class PizzaController {
                 .addObject(new VanTotPrijsForm(null, null));
     }
     @GetMapping("vantotprijs")
-    public ModelAndView vanTotPrijs(VanTotPrijsForm form, Errors errors) {
+    public ModelAndView vanTotPrijs(@Valid VanTotPrijsForm form, Errors errors) {
         var modelAndView = new ModelAndView("vantotprijs");
         if (errors.hasErrors()) {
             return modelAndView;
