@@ -8,8 +8,10 @@
     <nav th:fragment="menu">
         <ul>
             <li><a th:href="@{/}">Welkom</a></li>
-            <!--<li><a th:href="@{/pizzas}">Pizza's</a></li>-->
+            <li><a th:href="@{/pizzas}">Pizza's</a></li>
             <li><a th:href="@{/kleuren}">Kleur</a></li>
+            <li><a th:href="@{/pizzas/prijzen}">Prijzen</a></li>
+            <li><a th:href="@{/pizzas/vantotprijs/form}">Van tot prijs</a></li>
         </ul>
     </nav>
     <head th:fragment="head(title)">
