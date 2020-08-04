@@ -1,6 +1,7 @@
 package be.vdab.FrituurFrida.repositories;
 
 import be.vdab.FrituurFrida.domain.Pizza;
+import be.vdab.FrituurFrida.domain.Saus;
 import be.vdab.FrituurFrida.domain.Snack;
 import be.vdab.FrituurFrida.exceptions.PizzaNietGevondenException;
 import be.vdab.FrituurFrida.exceptions.SnackNietGevondenException;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Repository
 public class JdbcSnackRepository implements SnackRepository{
