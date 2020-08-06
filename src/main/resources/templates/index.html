@@ -13,5 +13,9 @@
         <dt>Gemeente</dt>
             <dd th:object = "${MijnAdres.gemente}"  th:text="|*{naam} *{postcode} |"></dd>
     </dl>
+    <div th:if="${param.snackNietGevonden}" class="fout">
+        Snack <span th:text="${param.snackNietGevonden}"></span>
+        niet gevonden
+    </div>
 </body>
 </html>

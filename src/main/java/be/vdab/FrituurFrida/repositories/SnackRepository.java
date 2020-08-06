@@ -10,4 +10,5 @@ public interface SnackRepository {
     void update(Snack snack);
     List<Snack> findByBeginNaam(String beginNaam);
     //List<Snack> findByBeginMetLetter(Character letter);
+    long create(Snack snack);
 }

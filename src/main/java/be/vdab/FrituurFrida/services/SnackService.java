@@ -1,5 +1,6 @@
 package be.vdab.FrituurFrida.services;
 
+import be.vdab.FrituurFrida.domain.Pizza;
 import be.vdab.FrituurFrida.domain.Snack;
 
 import java.util.List;
@@ -9,4 +10,5 @@ public interface SnackService {
      Optional<Snack> findById(long id);
      void update(Snack snack);
      List<Snack> findByBeginNaam(String beginNaam);
+     long create(Snack snack);
 }

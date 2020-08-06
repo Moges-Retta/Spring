@@ -8,22 +8,29 @@ import be.vdab.FrituurFrida.exceptions.SnackNietGevondenException;
 import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Repository
 public class JdbcSnackRepository implements SnackRepository{
     private final JdbcTemplate template;
+    private final SimpleJdbcInsert insert;
     private final RowMapper<Snack> snackMapper =
             (result, rowNum) ->
                     new Snack(result.getLong("id"), result.getString("naam"),
                             result.getBigDecimal("prijs"));
 
     public JdbcSnackRepository(JdbcTemplate template) {
+
         this.template = template;
+        this.insert  = new SimpleJdbcInsert(template)
+                .withTableName("snacks")
+                .usingGeneratedKeyColumns("id");
     }
 
     @Override
@@ -50,5 +57,13 @@ public class JdbcSnackRepository implements SnackRepository{
         var sql =
                 "select id, naam, prijs from snacks where naam like ? order by id";
         return template.query(sql, snackMapper, beginNaam+'%');
+    }
+
+    @Override
+    public long create(Snack snack) {
+        var kolomWaarden = Map.of("naam", snack.getNaam(),
+                "prijs", snack.getPrijs());
+        var id = insert.executeAndReturnKey(kolomWaarden);
+        return id.longValue();
     }
 }

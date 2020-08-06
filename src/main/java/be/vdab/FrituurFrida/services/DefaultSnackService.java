@@ -34,4 +34,9 @@ public class DefaultSnackService implements SnackService{
     public List<Snack> findByBeginNaam(String beginNaam) {
         return snackRepository.findByBeginNaam(beginNaam);
     }
+
+    @Override
+    public long create(Snack snack) {
+        return snackRepository.create(snack);
+    }
 }
