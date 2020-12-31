@@ -3,7 +3,7 @@
 Page layout :
 
 Welcome Pizza's Prices From to Price Add Identification Basket
-Logo
+![logo](images/luigi%20.jpg)
 The manager
 Name
 Luigi Peperone
